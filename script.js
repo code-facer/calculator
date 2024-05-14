@@ -27,7 +27,7 @@ function operate(num1, operator, num2) {
     }
 }
 
-let num1;
+let num1 = null;
 let operator;
 let num2;
 
@@ -44,11 +44,39 @@ number.forEach((button) => {
     button.addEventListener('click', () => {
         if(displayValue == 0) {
             displayValue = button.textContent;
-            num2 = button.textContent;
         } else {
             displayValue += button.textContent;
-            num2 = num2*10 + button.textContent;
         }
+        num2 = parseInt(displayValue);
         updatescreen();
     })
-});     
+});
+
+const clear = document.querySelector('#AC');
+clear.addEventListener('click', () => {
+    displayValue = 0;
+    num2 = 0;
+    num1 = null;
+    updatescreen();
+});
+
+const operators = document.querySelectorAll('.operators');
+operators.forEach((button) => {
+    button.addEventListener('click', (event) => {
+        let target = event.target;
+        if (num1 == null) {
+            if (target.textContent == '=') return;
+            num1 = num2
+            operator = target.textContent;
+            displayValue = 0;
+            updatescreen();
+        } else {
+            displayValue = operate(num1, operator, num2);
+            updatescreen();
+            num2 = displayValue;
+            displayValue = 0;
+            num1 = null;
+            if (target.textContent != '=') operator = target.textContent;
+        }
+    })
+});

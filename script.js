@@ -36,6 +36,8 @@ let displayValue = 0;
 const screen = document.querySelector('.screen');
 
 function updatescreen() {
+    // round to 2 decimal places
+    displayValue = Math.round(displayValue * 100) / 100;
     screen.textContent = displayValue;
 }
 

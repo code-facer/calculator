@@ -79,6 +79,15 @@ function decimal() {
     }
 }
 
+function backspace() {
+    if (displayValue.length <= 1) {
+        displayValue = '0';
+    } else {
+        displayValue = displayValue.slice(0, displayValue.length - 1);
+    }
+    updatescreen();
+}
+
 const buttons = document.querySelector('.buttons');
 buttons.addEventListener('click', (event) => {
     let target = event.target;
@@ -90,6 +99,25 @@ buttons.addEventListener('click', (event) => {
         clear();
     } else if (target.id == 'decimal') {
         decimal();
+    } else if (target.id == 'backspace' || target.parentNode.id == 'backspace') {
+        backspace();
+    }
+});
+
+window.addEventListener('keydown', (event) => {
+    let key = event.key;
+    if (!isNaN(key)) {
+        numbers(key);
+    } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+        operators(key);
+    } else if (key === 'Enter') {
+        operators('=');
+    } else if (key === 'Escape') {
+        clear();
+    } else if (key === '.') {
+        decimal();
+    } else if (key === 'Backspace') {
+        backspace();
     }
 });
 

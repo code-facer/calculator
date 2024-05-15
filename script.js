@@ -33,12 +33,12 @@ function numbers (num) {
     } else {
         displayValue += num;
     }
-    num2 = parseInt(displayValue);
+    num2 = parseFloat(displayValue);
     updatescreen();
 }
 
 function clear() {
-    displayValue = 0;
+    displayValue = '0';
     num2 = 0;
     num1 = null;
     updatescreen();
@@ -49,22 +49,34 @@ function operators(op) {
         if (op == '=') return;
         num1 = num2
         operator = op;
-        displayValue = 0;
-        updatescreen();
+        displayValue = '0';
+        updatescreen(true);
     } else {
         displayValue = operate(num1, operator, num2);
-        updatescreen();
+        updatescreen(true);
         num2 = displayValue;
-        displayValue = 0;
+        displayValue = '0';
         num1 = null;
         if (op != '=') operator = op;
     }
 }
 
-function updatescreen() {
-    // round to 2 decimal places
-    displayValue = Math.round(displayValue * 100) / 100;
+function updatescreen(operated = false) {
+    if (displayValue.length > 10) {
+        displayValue = displayValue.slice(0, 10);
+    }
+
+    if (operated) {
+        displayValue = (Math.round(displayValue * 100) / 100).toString();
+    }
     screen.textContent = displayValue;
+}
+
+function decimal() {
+    if (!displayValue.includes('.')) {
+        displayValue += '.';
+        updatescreen();
+    }
 }
 
 const buttons = document.querySelector('.buttons');
@@ -74,18 +86,17 @@ buttons.addEventListener('click', (event) => {
         numbers(target.textContent);
     } else if (target.parentNode.classList.contains('operators')) {
         operators(target.textContent);
+    } else if (target.id == 'AC') {
+        clear();
+    } else if (target.id == 'decimal') {
+        decimal();
     }
-});
-
-const ac = document.querySelector('#AC');
-ac.addEventListener('click', () => {
-    clear();
 });
 
 let num1 = null;
 let operator;
 let num2;
 
-let displayValue = 0;
+let displayValue = '0';
 
 const screen = document.querySelector('.screen');

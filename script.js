@@ -28,7 +28,7 @@ function operate(num1, operator, num2) {
 }
 
 function numbers (num) {
-    if(displayValue == 0) {
+    if(displayValue == '0') {
         displayValue = num;
     } else {
         displayValue += num;

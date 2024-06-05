@@ -50,7 +50,6 @@ function operators(op) {
         num1 = num2
         operator = op;
         displayValue = '0';
-        updatescreen(true);
     } else {
         displayValue = operate(num1, operator, num2);
         updatescreen(true);
@@ -62,13 +61,14 @@ function operators(op) {
 }
 
 function updatescreen(operated = false) {
+    if (operated) {
+        displayValue = (Math.round(displayValue * 100) / 100).toString();
+    }
+    
     if (displayValue.length > 10) {
         displayValue = displayValue.slice(0, 10);
     }
 
-    if (operated) {
-        displayValue = (Math.round(displayValue * 100) / 100).toString();
-    }
     screen.textContent = displayValue;
 }
 
